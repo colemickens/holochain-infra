@@ -1,11 +1,7 @@
 { pkgs
-
-# not used explicitly
 , lib
-, specialArgs
-, config
-, options
-, modulesPath
+, inputs
+, ...
 }: 
 
 {
@@ -61,7 +57,7 @@
     };
   };
 
-  # Activation scripts for impure set up of paths in /
+  # # Activation scripts for impure set up of paths in /
   system.activationScripts.bin = ''
     echo "setting up /bin..."
     mkdir -p /bin

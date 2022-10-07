@@ -3,12 +3,17 @@
 
   inputs = {
     nixpkgs = { url = "github:nixos/nixpkgs/nixos-unstable"; };
-    nixpkgs-github-runner = { url = "github:codedownio/nixpkgs/multiple-github-runners"; };
+    nixpkgs-github-runner = { url = "github:codedownio/nixpkgs/multiple-github-runners-oct3"; };
   };
 
   outputs = inputs: {
+    __cfg = ({ pkgs, ... }: {
+      imports = [
+        ./nixos-containers/github-runner/configuration.nix
+      ];
+    });
     nixosConfigurations = rec {
-      containers.github-runner = inputs.nixpkgs-github-runner.lib.nixosSystem  {
+      github-runner-container = inputs.nixpkgs-github-runner.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./nixos-containers/github-runner/configuration.nix
@@ -21,8 +26,8 @@
           ./nixos-hosts/github-runner-host/configuration.nix
         ];
 
-        specialArgs = { 
-          github-runner = containers.github-runner;
+        specialArgs = {
+          inherit inputs;
         };
       };
     };

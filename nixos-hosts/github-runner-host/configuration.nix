@@ -3,15 +3,10 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { pkgs
-, github-runner
-
-# not used explicitly
 , lib
-, config
-, options
-, modulesPath
-, specialArgs
-}:
+, inputs
+, ...
+}: 
 
 {
   imports =
@@ -87,20 +82,10 @@
   # system.copySystemConfiguration = true;
 
   containers = {
-    github-runner.config = github-runner.config;
-    # github-runner = {
-    #   autoStart = true;                
-    #   ephemeral = true;
-    #   bindMounts = let 
-    #     hra2Token = "/var/secrets/github-runner/hra2.token";
-    #   in {
-    #     hra2Token = {
-    #       hostPath = hra2Token;
-    #       isReadOnly = true;
-    #     };
-    #   };
-    #   config = github-runner;
-    # };
+    github-runner-container = {
+      config = inputs.self.outputs.__cfg;
+      nixpkgs = inputs.nixpkgs-github-runner;
+    };
   };
 
 
