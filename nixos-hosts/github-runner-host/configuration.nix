@@ -82,9 +82,12 @@
   # system.copySystemConfiguration = true;
 
   containers = {
+    # github-runner-container = {
+    #   config = inputs.self.outputs.__cfg;
+    #   nixpkgs = inputs.nixpkgs-github-runner;
+    # };
     github-runner-container = {
-      config = inputs.self.outputs.__cfg;
-      nixpkgs = inputs.nixpkgs-github-runner;
+      path = inputs.self.outputs.nixosConfigurations.github-runner-container.config.system.build.toplevel;
     };
   };
 
